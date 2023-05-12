@@ -33,7 +33,7 @@ const replacer = (binaryIp, prefix, value) => {
 
 const getFirstOrLastUsableIp = (ip, type) => {
   const octets = ip.split(".");
-  const [, , , lastOctet] = octets;
+  const lastOctet = octets.at(-1);
   let usable;
   switch (type) {
     case "first":
