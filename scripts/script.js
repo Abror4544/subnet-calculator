@@ -1,4 +1,5 @@
 const MAX_IP = 255;
+const MIN_IP = 0;
 const MAX_PREFIX = 32;
 const MAX_IP_PARTS = 4;
 
@@ -60,7 +61,7 @@ document.querySelector("#calculate").addEventListener("click", () => {
       .split("/")[0]
       .split(".")
       .find((octet) => {
-        return +octet + "" === "NaN" || +octet > MAX_IP || +octet < 0;
+        return +octet + "" === "NaN" || +octet > MAX_IP || +octet < MIN_IP;
       }) &&
     +inputValue.split("/")[1] <= MAX_PREFIX;
 
