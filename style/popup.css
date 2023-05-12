@@ -1,0 +1,102 @@
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #ffffff;
+  text-align: center;
+}
+
+body {
+  width: 20rem;
+  background: black;
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3700b3;
+  border-radius: 10px;
+  width: 5px;
+}
+
+ul {
+  list-style-type: none;
+  padding-inline-start: 0;
+  margin: 1rem 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+li {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+li:nth-child(odd) {
+  background: #80808030;
+}
+
+li:nth-child(even) {
+  background: #0e0505;
+}
+
+.input {
+  width: 100%;
+  flex-grow: 1;
+  border-radius: 6px;
+  padding: 0.5rem;
+  outline: none;
+  background: #121212;
+  border: none;
+  color: #ffffff;
+  border: 1px solid #3700b3;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 12px;
+}
+
+.input.error{
+  border-color: red;
+}
+
+.input:focus {
+  border-color: #6200ee;
+}
+
+button#calculate {
+  border: none;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border-radius: 6px;
+  width: 100%;
+  background: #3700b3;
+}
+
+button#calculate:hover {
+  background-color: #6200ee;
+}
+
+button#calculate:active {
+  background-color: #7d23fc;
+}
+
+P{
+  font-size: 14px;
+}
+
+.answer{
+  font-weight: 700;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cisco Subnet Calculator</title>
+    <link rel="stylesheet" href="./style/popup.css" />
+  </head>
+  <body>
+    <h1>Cisco Subnet Calculator</h1>
+    <input type="text" class="input" name="ip" id="ip" />
+    <ul class="answer-wrap">
+      <li class="answer-item">
+        <p class="title">Belongs to (network):</p>
+        <p class="answer" id="network"></p>
+      </li>
+      <li class="answer-item">
+        <p class="title">Broadcast:</p>
+        <p class="answer" id="broadcast"></p>
+      </li>
+      <li class="answer-item">
+        <p class="title">First usable address:</p>
+        <p class="answer" id="firstUsable"></p>
+      </li>
+      <li class="answer-item">
+        <p class="title">Last usable address:</p>
+        <p class="answer" id="lastUsable"></p>
+      </li>
+      <li class="answer-item">
+        <p class="title">Number of hosts:</p>
+        <p class="answer" id="numberOfHosts"></p>
+      </li>
+    </ul>
+    <button id="calculate">Calculate</button>
+    <script src="./scripts/script.js" type="module"></script>
+  </body>
+</html>

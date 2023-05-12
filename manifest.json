@@ -1,0 +1,28 @@
+{
+  "name": "Subnet",
+  "description": "Subnet calculator",
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["./scripts/script.js"]
+    }
+  ],
+  "permissions": ["scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "./images/16.png",
+      "32": "./images/32.png",
+      "48": "./images/48.png",
+      "128": "./images/128.png"
+    }
+  },
+  "icons": {
+    "16": "./images/16.png",
+    "32": "./images/32.png",
+    "48": "./images/48.png",
+    "128": "./images/128.png"
+  }
+}
