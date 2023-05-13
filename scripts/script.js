@@ -56,12 +56,12 @@ document.querySelector("#calculate").addEventListener("click", () => {
     inputValue.includes(".") &&
     inputValue.split(".").length === MAX_IP_PARTS &&
     inputValue.includes("/") &&
-    +inputValue.split("/")[1] + "" !== "NaN" &&
+    !isNaN(inputValue.split("/")[1]) &&
     !inputValue
       .split("/")[0]
       .split(".")
       .find((octet) => {
-        return +octet + "" === "NaN" || +octet > MAX_IP || +octet < MIN_IP;
+        return isNaN(octet) || +octet > MAX_IP || +octet < MIN_IP;
       }) &&
     +inputValue.split("/")[1] <= MAX_PREFIX;
 
