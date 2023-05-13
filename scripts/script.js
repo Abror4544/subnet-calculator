@@ -7,63 +7,40 @@ const convertToOctetBinary = (decimal) => {
   return parseInt(decimal).toString(2).padStart(8, "0");
 };
 
-const replacer = (binaryIp, prefix, value) => {
+function replaceBinary(binaryIp, prefix, value) {
   return binaryIp
     .map((number, index, arr) => {
-      let result;
-
-      if (index >= Number(prefix)) {
-        result = value;
-      } else {
-        result = number;
-      }
-
-      if ((index + 1) % 8 === 0 && index !== arr.length - 1) {
-        result += ".";
-      }
-
-      return result;
+      const result = index >= Number(prefix) ? value : number;
+      return (index + 1) % 8 === 0 && index !== arr.length - 1
+        ? result + "."
+        : result;
     })
     .join("")
     .split(".")
-    .map((octet) => {
-      return parseInt(octet, 2);
-    })
+    .map((octet) => parseInt(octet, 2))
     .join(".");
-};
+}
 
 const getFirstOrLastUsableIp = (ip, type) => {
   const octets = ip.split(".");
   const lastOctet = octets.at(-1);
-  let usable;
-  switch (type) {
-    case "first":
-      usable = +lastOctet + 1;
-      break;
-    case "last":
-      usable = +lastOctet - 1;
-      break;
-  }
-
+  const usable = type === "first" ? +lastOctet + 1 : +lastOctet - 1;
   return octets.slice(0, 3).join(".") + "." + usable;
 };
 
-document.querySelector("#calculate").addEventListener("click", () => {
-  const input = document.querySelector("#ip");
+const calculate = (input) => {
   const inputValue = input.value;
+  const ipParts = inputValue.split(".");
+  const [address, prefix] = inputValue.split("/");
+
   const validation =
-    !!inputValue.length &&
-    inputValue.includes(".") &&
-    inputValue.split(".").length === MAX_IP_PARTS &&
+    ipParts.length === MAX_IP_PARTS &&
     inputValue.includes("/") &&
-    !isNaN(inputValue.split("/")[1]) &&
-    !inputValue
-      .split("/")[0]
-      .split(".")
-      .find((octet) => {
-        return isNaN(octet) || +octet > MAX_IP || +octet < MIN_IP;
-      }) &&
-    +inputValue.split("/")[1] <= MAX_PREFIX;
+    address.split(".").every((part) => {
+      const num = Number(part);
+      return !isNaN(num) && num >= MIN_IP && num <= MAX_IP;
+    }) &&
+    +prefix <= MAX_PREFIX;
 
   if (!validation) {
     input.classList.add("error");
@@ -71,8 +48,8 @@ document.querySelector("#calculate").addEventListener("click", () => {
   }
 
   input.classList.remove("error");
-  const [address, prefix] = inputValue.split("/");
-  const binaryIp = address
+
+  const binaryIpBits = address
     .split(".")
     .map((octet) => {
       return convertToOctetBinary(Number(octet));
@@ -80,15 +57,26 @@ document.querySelector("#calculate").addEventListener("click", () => {
     .join("")
     .split("");
 
-  const network = replacer(binaryIp, prefix, "0");
-  const broadcast = replacer(binaryIp, prefix, "1");
+  const network = replaceBinary(binaryIpBits, prefix, "0");
+  const broadcast = replaceBinary(binaryIpBits, prefix, "1");
   const firstUsable = getFirstOrLastUsableIp(network, "first");
   const lastUsable = getFirstOrLastUsableIp(broadcast, "last");
   const numberOfHosts = 2 ** (MAX_PREFIX - Number(prefix)) - 2;
 
+  return { network, broadcast, firstUsable, lastUsable, numberOfHosts };
+};
+
+const renderResults = (results) => {
+  if (!results) return;
+  const { network, broadcast, firstUsable, lastUsable, numberOfHosts } =
+    results;
   document.querySelector("#network").textContent = network;
   document.querySelector("#broadcast").textContent = broadcast;
   document.querySelector("#firstUsable").textContent = firstUsable;
   document.querySelector("#lastUsable").textContent = lastUsable;
   document.querySelector("#numberOfHosts").textContent = numberOfHosts;
+};
+
+document.querySelector("#calculate").addEventListener("click", () => {
+  renderResults(calculate(document.querySelector("#ip")));
 });
